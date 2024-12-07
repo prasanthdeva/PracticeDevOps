@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        GIT_REPO = "https://github.com/prasanthdeva/PracticeDevOps.git"  // Replace with your actual repository
+        GIT_REPO = "git@github.com:prasanthdeva/PracticeDevOps.git"  // Replace with your actual repository
         GIT_CREDENTIALS_ID = "github-ssh-key"  // The ID of your SSH credentials in Jenkins
     }
 
@@ -12,7 +12,7 @@ pipeline {
                 script {
                     // Checkout the GitHub repository using SSH credentials
                     checkout([$class: 'GitSCM',
-                              branches: [[name: '*/main']],  // Replace 'main' with your branch if different
+                              branches: [[name: '*/master']],  // Changed from 'main' to 'master'
                               userRemoteConfigs: [[url: "${GIT_REPO}", credentialsId: "${GIT_CREDENTIALS_ID}"]]
                     ])
                 }
