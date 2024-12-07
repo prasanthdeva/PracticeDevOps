@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         GIT_REPO = 'git@github.com:prasanthdeva/PracticeDevOps.git'
-        BRANCH_NAME = 'main'  // Update this to 'master' if that's your branch name
+        BRANCH_NAME = 'master'  // Update this to 'master' if that's your branch name
     }
 
     stages {
