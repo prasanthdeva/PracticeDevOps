@@ -2,30 +2,49 @@ pipeline {
     agent any
 
     environment {
-        GIT_REPO = "git@github.com:prasanthdeva/PracticeDevOps.git"  // Replace with your actual repository URL
-        GIT_CREDENTIALS_ID = "github-ssh-key"  // The ID of your SSH credentials in Jenkins
+        GIT_REPO = 'git@github.com:prasanthdeva/PracticeDevOps.git'
+        BRANCH_NAME = 'main'  // Update this to 'master' if that's your branch name
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Checkout SCM') {
             steps {
                 script {
-                    // Clone the GitHub repository
-                    checkout([$class: 'GitSCM',
-                              branches: [[name: '*/main']],  // Use 'main' or 'master' depending on your branch
-                              userRemoteConfigs: [[url: "${GIT_REPO}", credentialsId: "${GIT_CREDENTIALS_ID}"]]
+                    // Checkout from the specific branch of the repo
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: "*/${BRANCH_NAME}"]],
+                        userRemoteConfigs: [[url: "${GIT_REPO}", credentialsId: 'github-ssh-key']]
                     ])
                 }
             }
         }
-
-        stage('Run Hello World') {
+        
+        stage('Build') {
             steps {
-                script {
-                    // Run the "Hello World" script (assumes a file named hello-world.sh or similar in your repo)
-                    sh './hello-world.sh'  // Modify this to match the script name and extension in your repository
-                }
+                echo 'Building...'
+                // Add your build steps here
             }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running Tests...'
+                // Add your test steps here
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying...'
+                // Add your deployment steps here
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished.'
         }
     }
 }
