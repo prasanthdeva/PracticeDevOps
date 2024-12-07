@@ -2,51 +2,28 @@ pipeline {
     agent any
 
     environment {
-        GIT_REPO = "git@github.com:prasanthdeva/PracticeDevOps.git"  // Replace with your actual repository
+        GIT_REPO = "git@github.com:your-username/hello-world-repo.git"  // Replace with your actual repository URL
         GIT_CREDENTIALS_ID = "github-ssh-key"  // The ID of your SSH credentials in Jenkins
     }
 
     stages {
-        stage('Clone repository') {
+        stage('Clone Repository') {
             steps {
                 script {
-                    // Checkout the GitHub repository using SSH credentials
+                    // Clone the GitHub repository
                     checkout([$class: 'GitSCM',
-                              branches: [[name: '*/master']],  // Changed from 'main' to 'master'
+                              branches: [[name: '*/main']],  // Use 'main' or 'master' depending on your branch
                               userRemoteConfigs: [[url: "${GIT_REPO}", credentialsId: "${GIT_CREDENTIALS_ID}"]]
                     ])
                 }
             }
         }
 
-        stage('Build image') {
+        stage('Run Hello World') {
             steps {
                 script {
-                    // Build the Docker image
-                    app = docker.build("edureka1/edureka")
-                }
-            }
-        }
-
-        stage('Test image') {
-            steps {
-                script {
-                    // Run tests inside the Docker container (example here with a simple echo command)
-                    app.inside {
-                        sh 'echo "Tests passed"'
-                    }
-                }
-            }
-        }
-
-        stage('Push image') {
-            steps {
-                script {
-                    // Push the Docker image to Docker Hub with two tags: build number and 'latest'
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                        app.push("${env.BUILD_NUMBER}")
-                        app.push("latest")
-                    }
+                    // Run the "Hello World" script (assumes a file named hello-world.sh or similar in your repo)
+                    sh './hello-world.sh'  // Modify this to match the script name and extension in your repository
                 }
             }
         }
