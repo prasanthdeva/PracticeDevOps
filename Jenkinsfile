@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        GIT_REPO = "git@github.com:prasanthdeva/PracticeDevOps.git"  // Replace with your actual repository
+        GIT_REPO = "https://github.com/prasanthdeva/PracticeDevOps.git"  // Replace with your actual repository
         GIT_CREDENTIALS_ID = "github-ssh-key"  // The ID of your SSH credentials in Jenkins
     }
 
